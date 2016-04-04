@@ -4,9 +4,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.util.Log;
-
-import java.util.ArrayList;
 
 /**
  * Created by larspmayrand on 4/3/16. THIS IS NICK TILLER'S
@@ -82,8 +79,8 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         return cursor.getInt(cursor.getColumnIndex(columnName));
     }
 
-    public void getCSClassForStudents() {
-        String sql = "SELECT " +
+//    public void getCSClassForStudents() {
+//        String sql = "SELECT " +
 //                Student.TABLE_NAME + "." + Student.COL_NAME + ", " + CSClass.TABLE_NAME + ".* " +
 //                "FROM " + CSClass.TABLE_NAME + " INNER JOIN " + Student.TABLE_NAME +
 //                " ON " + CSClass.TABLE_NAME + "." + CSClass.COL_YEAR + " LIKE " + Student.TABLE_NAME + "." + Student.COL_YEAR;
@@ -103,7 +100,7 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
 //        cursor.close();
 //
 
-    }
+//    }
 
 //    public ArrayList<Student> getAllStudents() {
 //        ArrayList<Student> students = new ArrayList<>();

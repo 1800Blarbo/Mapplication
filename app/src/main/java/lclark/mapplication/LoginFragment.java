@@ -50,7 +50,7 @@ public class LoginFragment extends Fragment {
                             snackbar1.show();
                             new User("tomas"); // somehow pass tomas to MapsFragment
                             // add new username to SQL
-                            launchMap();
+                                launchMap();
                         }
                     });
 
@@ -74,7 +74,7 @@ public class LoginFragment extends Fragment {
         }
     }
 
-    public void launchMap(User user) {
+    public void launchMap() { // User user
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new MapsFragment());
         transaction.commit();
