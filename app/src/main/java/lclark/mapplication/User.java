@@ -1,20 +1,26 @@
 package lclark.mapplication;
 
 import android.content.ContentValues;
-import java.util.ArrayList;
+import android.provider.BaseColumns;
 
 /**
  * Created by larspmayrand on 4/3/16.
  */
-public class User {
+public class User implements BaseColumns {
 
     private String name;
-    private ArrayList<Pin> pins;
+    private int idNumber;
 
     public static final String COLUMN_NAME = "name";
-    public static final String COLUMN_PINS = "pins";
+    public static final String TABLE_NAME = "users";
 
-    public User(String name) {
+    public static final String CREATE_TABLE = "CREATE TABLE" + TABLE_NAME + " ( " +
+            _ID + " TEXT PRIMARY KEY, " +
+            COLUMN_NAME + " TEXT, ";
+
+
+    public User(int idNumber, String name) {
+        this.idNumber = idNumber;
         this.name = name;
     }
 
@@ -22,7 +28,6 @@ public class User {
         android.content.ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, name);
         return contentValues;
-
     }
 
 }
