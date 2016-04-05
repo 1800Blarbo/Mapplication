@@ -5,9 +5,10 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import java.util.ArrayList;
+
 /**
- * Created by larspmayrand on 4/3/16. THIS IS NICK TILLER'S
- * a lot needs to be done here but most parts will be recycled to something we need
+ * Created by larspmayrand on 4/3/16.
  */
 public class UserSQLiteHelper extends SQLiteOpenHelper {
 
@@ -17,7 +18,6 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
     private UserSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
-
 
     /**
      * Returns an instance of StudentSqliteHelper
@@ -29,42 +29,20 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         if (sInstance == null) {
             sInstance = new UserSQLiteHelper(context.getApplicationContext(), DB_NAME, null, 1);
         }
-
         return sInstance;
     }
 
-
     @Override
     public void onCreate(SQLiteDatabase db) {
-//        db.execSQL("CREATE TABLE " + User.TABLE_NAME + " ( " +
-//                        User._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//                        User.COL_NAME + " TEXT, " +
-//                        User.COL_YEAR + " TEXT, " +
-//                        User.COL_NET_WORTH + " BIGINT )"
-//        );
-//
-//        db.execSQL(CSClass.CREATE_TABLE);
-
-    }
-
-    public void initialize() {
-
-//        SQLiteDatabase database = getWritableDatabase();
-//        database.beginTransaction();
-//
-//        ArrayList<CSClass> classes = CSClass.getAllClasses();
-//        for (CSClass csClass : classes) {
-//            database.insert(CSClass.TABLE_NAME, null, csClass.getContentValues());
-//        }
-//        database.setTransactionSuccessful();
-//        database.endTransaction();
+        db.execSQL(Pin.CREATE_TABLE);
+        db.execSQL(User.CREATE_TABLE);
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-//        db.execSQL("DROP TABLE " + Student.TABLE_NAME);
-//        db.execSQL("DROP TABLE " + CSClass.TABLE_NAME);
-//        onCreate(db);
+        db.execSQL("DROP TABLE " + User.TABLE_NAME);
+        db.execSQL("DROP TABLE " + Pin.TABLE_NAME);
+        onCreate(db);
     }
 
     public String getCursorString(Cursor cursor, String columnName) {
@@ -79,52 +57,45 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         return cursor.getInt(cursor.getColumnIndex(columnName));
     }
 
-//    public void getCSClassForStudents() {
-//        String sql = "SELECT " +
-//                Student.TABLE_NAME + "." + Student.COL_NAME + ", " + CSClass.TABLE_NAME + ".* " +
-//                "FROM " + CSClass.TABLE_NAME + " INNER JOIN " + Student.TABLE_NAME +
-//                " ON " + CSClass.TABLE_NAME + "." + CSClass.COL_YEAR + " LIKE " + Student.TABLE_NAME + "." + Student.COL_YEAR;
-//
-//        Log.d("getCSClassForStudents", sql);
-//        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
-//
-//        while (cursor.moveToNext()) {
-//            String builder = getCursorString(cursor, Student.COL_NAME) +
-//                    " goes to " +
-//                    getCursorString(cursor, CSClass.COL_YEAR) +
-//                    " : " +
-//                    getCursorString(cursor, CSClass.COL_NAME);
-//            Log.d("getCSClassForStudents", builder);
-//        }
-//
-//        cursor.close();
-//
+    public ArrayList<User> getAllUsers() {
 
-//    }
+        ArrayList<User> users = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + User.TABLE_NAME, null);
 
-//    public ArrayList<Student> getAllStudents() {
-//        ArrayList<Student> students = new ArrayList<>();
-//
-//
-//        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + Student.TABLE_NAME, null);
-//
-//        if (cursor.moveToFirst()) {
-//
-//            do {
-//                int id = getCursorInt(cursor, Student._ID);
-//                String name = getCursorString(cursor, Student.COL_NAME);
-//                double netWorth = getCursorLong(cursor, Student.COL_NET_WORTH);
-//                String year = getCursorString(cursor, Student.COL_YEAR);
-//                students.add(new Student(id, name, year, netWorth));
-//            } while (cursor.moveToNext());
-//
-//        }
-//
-//        cursor.close();
-//        return students;
-//    }
-//
-//    public void insertStudent(Student student) {
-//        getWritableDatabase().insert(Student.TABLE_NAME, null, student.getContentValues());
-//    }
+        if (cursor.moveToFirst()) {
+            do {
+                int id = getCursorInt(cursor, User._ID);
+                String name = getCursorString(cursor, User.COLUMN_NAME);
+                users.add(new User(id, name));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return users;
+    }
+
+    public ArrayList<Pin> getAllPins() {
+
+        ArrayList<Pin> pins = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + Pin.TABLE_NAME, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = getCursorInt(cursor, Pin._ID);
+                String lat = getCursorString(cursor, Pin.COL_LNG);
+                String lng = getCursorString(cursor, Pin.COL_LNG);
+                String title = getCursorString(cursor, Pin.COL_TITLE);
+                String snippet = getCursorString(cursor, Pin.COL_SNIPPET);
+                pins.add(new Pin(id, lng, lat, title, snippet));
+            } while (cursor.moveToNext());
+        }
+
+        cursor.close();
+        return pins;
+    }
+
+    public void insertUser(User user) {
+        getWritableDatabase().insert(User.TABLE_NAME, null, user.getContentValues());
+    }
+
 }

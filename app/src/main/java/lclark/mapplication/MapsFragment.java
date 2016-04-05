@@ -4,7 +4,6 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,6 +19,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
+import butterknife.ButterKnife;
 
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
@@ -33,8 +33,17 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        return inflater.inflate(R.layout.fragment_maps, parent, false);
+        //super.onCreate(savedInstanceState);
+        View rootView = inflater.inflate(R.layout.fragment_maps, parent, false);
+        ButterKnife.bind(this, rootView);
+        mMapView.onCreate(savedInstanceState);
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
     }
 
     /**
@@ -60,9 +69,9 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapClick(LatLng point) {
         // TODO: launch dialog fragment, get title and description, store in SQL
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.show(mDialogFragment);
-        transaction.commit();
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.show(mDialogFragment);
+//        transaction.commit();
         //make the dialogFragment centered at point
         // Pin pin = new Pin(point, title, description);
 

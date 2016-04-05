@@ -48,7 +48,7 @@ public class LoginFragment extends Fragment {
                         public void onClick(View view) {
                             Snackbar snackbar1 = Snackbar.make(mLoginButton, R.string.user_added, Snackbar.LENGTH_SHORT);
                             snackbar1.show();
-                            new User("tomas"); // somehow pass tomas to MapsFragment
+                            // new User("tomas"); // somehow pass tomas to MapsFragment
                             // add new username to SQL
                                 launchMap();
                         }
@@ -57,7 +57,6 @@ public class LoginFragment extends Fragment {
             snackbar.show();
         } else {
             // SQL
-            new User(user);
             launchMap(); // of user
         }
     }
