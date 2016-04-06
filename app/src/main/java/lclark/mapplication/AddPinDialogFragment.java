@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.support.v7.app.AlertDialog;
 import android.widget.RadioGroup;
 
 import butterknife.Bind;
@@ -26,16 +27,6 @@ public class AddPinDialogFragment extends DialogFragment {
 
     private UserCreatedListener mListener;
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_dialog, container, false);
-        ButterKnife.bind(this, rootView);
-
-        //getActivity().setTitle(getActivity().getString(R.string.fragment_search_title));
-
-        return rootView;
-    }
-
     public interface UserCreatedListener {
         void onUserCreated(User user);
     }
@@ -43,10 +34,9 @@ public class AddPinDialogFragment extends DialogFragment {
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-
         mListener = (UserCreatedListener) getActivity();
-
-        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_add_student, null);
+        View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_dialog, null);
+        ButterKnife.bind(this, rootView);
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(rootView)
@@ -58,21 +48,21 @@ public class AddPinDialogFragment extends DialogFragment {
                                 String name = mNameEditText.getText().toString().trim();
                                 String networth = mNetWorthEditText.getText().toString().trim();
                                 String year = Student.FRESHMAN;
-                                int id = mRadioGroup.getCheckedRadioButtonId();
-                                switch (id) {
-                                    case R.id.fragment_add_student_freshman:
-                                        year = Student.FRESHMAN;
-                                        break;
-                                    case R.id.fragment_add_student_sophomore:
-                                        year = Student.SOPHOMORE;
-                                        break;
-                                    case R.id.fragment_add_student_junior:
-                                        year = Student.JUNIOR;
-                                        break;
-                                    case R.id.fragment_add_student_senior:
-                                        year = Student.SENIOR;
-                                        break;
-                                }
+//                                int id = mRadioGroup.getCheckedRadioButtonId();
+//                                switch (id) {
+//                                    case R.id.fragment_add_student_freshman:
+//                                        year = Student.FRESHMAN;
+//                                        break;
+//                                    case R.id.fragment_add_student_sophomore:
+//                                        year = Student.SOPHOMORE;
+//                                        break;
+//                                    case R.id.fragment_add_student_junior:
+//                                        year = Student.JUNIOR;
+//                                        break;
+//                                    case R.id.fragment_add_student_senior:
+//                                        year = Student.SENIOR;
+//                                        break;
+//                                }
 
                                 Student student = new Student(name, year, Double.valueOf(networth));
                                 mListener.onStudentCreated(student);

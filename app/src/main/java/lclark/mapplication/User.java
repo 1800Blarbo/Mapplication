@@ -13,10 +13,19 @@ public class User implements BaseColumns {
 
     public static final String COLUMN_NAME = "name";
     public static final String TABLE_NAME = "users";
+    public static final String COLUMN_USERID = "user_ID";
 
     public static final String CREATE_TABLE = "CREATE TABLE" + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
             COLUMN_NAME + " TEXT, ";
+
+    public String getName() {
+        return name;
+    }
+
+    public int getIdNumber() {
+        return idNumber;
+    }
 
     public User(int idNumber, String name) {
         this.idNumber = idNumber;
