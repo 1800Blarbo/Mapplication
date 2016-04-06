@@ -21,8 +21,8 @@ public class Pin implements BaseColumns {
 
     public static final String CREATE_TABLE = "CREATE_TABLE" + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
-            COL_LAT + " REAL NUMBERS, " +
-            COL_LNG + " REAL NUMBERS, " +
+            COL_LAT + " REAL, " +
+            COL_LNG + " REAL, " +
             COL_TITLE + " TEXT, " +
             COL_SNIPPET + " TEXT, " + COL_USERID + " TEXT )";
 

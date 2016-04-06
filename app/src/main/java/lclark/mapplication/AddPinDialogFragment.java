@@ -4,12 +4,11 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.EditText;
-import android.support.v7.app.AlertDialog;
-import android.widget.RadioGroup;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
@@ -40,14 +39,12 @@ public class AddPinDialogFragment extends DialogFragment {
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(rootView)
-                .setTitle(getActivity().getString(R.string.new_student))
+                .setTitle(getActivity().getString(R.string.new_user))
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String name = mNameEditText.getText().toString().trim();
-                                String networth = mNetWorthEditText.getText().toString().trim();
-                                String year = Student.FRESHMAN;
+                                String name = mDescription.getText().toString().trim();
 //                                int id = mRadioGroup.getCheckedRadioButtonId();
 //                                switch (id) {
 //                                    case R.id.fragment_add_student_freshman:
@@ -64,8 +61,9 @@ public class AddPinDialogFragment extends DialogFragment {
 //                                        break;
 //                                }
 
-                                Student student = new Student(name, year, Double.valueOf(networth));
-                                mListener.onStudentCreated(student);
+                                int id = 27; // ???
+                                User user = new User(id, name);
+                                mListener.onUserCreated(user);
 
                             }
                         })

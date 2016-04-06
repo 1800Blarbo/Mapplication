@@ -29,11 +29,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     @Bind(R.id.mapView)
     MapView mMapView;
 
-    private DialogFragment mDialogFragment;
+    private AddPinDialogFragment mAddPinDialogFragment;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
-        //super.onCreate(savedInstanceState);
         View rootView = inflater.inflate(R.layout.fragment_maps, parent, false);
         ButterKnife.bind(this, rootView);
         mMapView.onCreate(savedInstanceState);
@@ -44,6 +43,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onResume() {
         super.onResume();
         mMapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
     }
 
     /**

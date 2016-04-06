@@ -82,11 +82,11 @@ public class LoginFragment extends Fragment {
         transaction.commit();
     }
 
-    @Override
+    //@Override
     public void onUserCreated(User user) {
         Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
         mUserSQLiteHelper.insertUser(user);
-        //mUserSQLiteHelper.getCSCl3assForStudents();
+        //mUserSQLiteHelper.getCSClassForStudents();
     }
 
 }
