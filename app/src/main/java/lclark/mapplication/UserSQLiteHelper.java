@@ -59,21 +59,21 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
     }
 
     public void getPinsForUsers() {
-        String sql = "SELECT " +
-                User.TABLE_NAME + "." + User.COLUMN_NAME + ", " + Pin.TABLE_NAME + ".* " +
-                "FROM " + Pin.TABLE_NAME + " INNER JOIN " + User.TABLE_NAME +
-                " ON " + Pin.TABLE_NAME + "." + Pin.COL_TITLE + " LIKE " + User.TABLE_NAME + "." + User.COL_YEAR;
+        String sql = "SELECT" +
+                Pin.TABLE_NAME + "." + "*" +
+                "FROM" + Pin.TABLE_NAME +
+                "WHERE" + User._ID + "=" + Pin.COL_USERID;
 
-        Log.d("getCSClassForStudents", sql);
+        Log.d("getPinsForUsers", sql);
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
         while (cursor.moveToNext()) {
-            String builder = getCursorString(cursor, User.COLUMN_NAME) +
+            String builder = getCursorString(cursor, User._ID) +
                     " goes to " +
-                    getCursorString(cursor, Pin.COL_YEAR) +
+                    getCursorString(cursor, User.COLUMN_NAME) +
                     " : " +
-                    getCursorString(cursor, Pin.COL_NAME);
-            Log.d("getCSClassForStudents", builder);
+                    getCursorString(cursor, User.COLUMN_NAME);
+            Log.d("getPinsForUsers", builder);
         }
         cursor.close();
     }
@@ -107,7 +107,8 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
                 String lng = getCursorString(cursor, Pin.COL_LNG);
                 String title = getCursorString(cursor, Pin.COL_TITLE);
                 String snippet = getCursorString(cursor, Pin.COL_SNIPPET);
-                pins.add(new Pin(id, lng, lat, title, snippet));
+                int userID = getCursorInt(cursor, Pin.COL_USERID);
+                pins.add(new Pin(id, lng, lat, title, snippet, userID));
             } while (cursor.moveToNext());
         }
 
