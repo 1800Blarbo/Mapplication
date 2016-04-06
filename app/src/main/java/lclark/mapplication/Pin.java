@@ -15,35 +15,35 @@ public class Pin implements BaseColumns {
     public static final String TABLE_NAME = "Pins";
     public static final String COL_USERID = "User_ID";
 
-    private String mLNG, mLAT, mTitle, mSnippet;
+    private String mTitle, mSnippet;
     private int mID, mUserID;
+    private double mLNG, mLAT;
 
     public static final String CREATE_TABLE = "CREATE_TABLE" + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
-            COL_LNG + " TEXT, " +
-            COL_LAT + " TEXT, " +
+            COL_LAT + " REAL NUMBERS, " +
+            COL_LNG + " REAL NUMBERS, " +
             COL_TITLE + " TEXT, " +
             COL_SNIPPET + " TEXT, " + COL_USERID + " TEXT )";
 
-    public Pin(int id, String lng, String lat, String title, String snippet, int userID) {
+    public Pin(int id, double lat, double lng, String title, String snippet, int userID) {
         mID = id;
         mLNG = lng;
         mLAT = lat;
         mTitle = title;
         mSnippet = snippet;
         mUserID = userID;
-
     }
 
     public int getmID() {
         return mID;
     }
 
-    public String getmLNG() {
+    public double getmLNG() {
         return mLNG;
     }
 
-    public String getmLAT() {
+    public double getmLAT() {
         return mLAT;
     }
 
