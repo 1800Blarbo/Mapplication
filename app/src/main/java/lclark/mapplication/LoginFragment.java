@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,6 +27,8 @@ public class LoginFragment extends Fragment {
 
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
+
+    private UserSQLiteHelper mUserSQLiteHelper;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,6 +80,13 @@ public class LoginFragment extends Fragment {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new MapsFragment());
         transaction.commit();
+    }
+
+    @Override
+    public void onUserCreated(User user) {
+        Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
+        mUserSQLiteHelper.insertUser(user);
+        //mUserSQLiteHelper.getCSCl3assForStudents();
     }
 
 }

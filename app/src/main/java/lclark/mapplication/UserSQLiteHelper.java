@@ -4,6 +4,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,26 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
 
     public int getCursorInt(Cursor cursor, String columnName) {
         return cursor.getInt(cursor.getColumnIndex(columnName));
+    }
+
+    public void getPinsForUsers() {
+        String sql = "SELECT " +
+                User.TABLE_NAME + "." + User.COLUMN_NAME + ", " + Pin.TABLE_NAME + ".* " +
+                "FROM " + Pin.TABLE_NAME + " INNER JOIN " + User.TABLE_NAME +
+                " ON " + Pin.TABLE_NAME + "." + Pin.COL_TITLE + " LIKE " + User.TABLE_NAME + "." + User.COL_YEAR;
+
+        Log.d("getCSClassForStudents", sql);
+        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
+
+        while (cursor.moveToNext()) {
+            String builder = getCursorString(cursor, User.COLUMN_NAME) +
+                    " goes to " +
+                    getCursorString(cursor, Pin.COL_YEAR) +
+                    " : " +
+                    getCursorString(cursor, Pin.COL_NAME);
+            Log.d("getCSClassForStudents", builder);
+        }
+        cursor.close();
     }
 
     public ArrayList<User> getAllUsers() {
