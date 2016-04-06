@@ -50,8 +50,8 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         return cursor.getString(cursor.getColumnIndex(columnName));
     }
 
-    public long getCursorLong(Cursor cursor, String columnName) {
-        return cursor.getLong(cursor.getColumnIndex(columnName));
+    public double getCursorDouble(Cursor cursor, String columnName) {
+        return cursor.getDouble(cursor.getColumnIndex(columnName));
     }
 
     public int getCursorInt(Cursor cursor, String columnName) {
@@ -62,7 +62,7 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         String sql = "SELECT " +
                 User.TABLE_NAME + "." + User.COLUMN_NAME + ", " + Pin.TABLE_NAME + ".* " +
                 "FROM " + Pin.TABLE_NAME + " INNER JOIN " + User.TABLE_NAME +
-                " ON " + Pin.TABLE_NAME + "." + Pin.COL_TITLE + " LIKE " + User.TABLE_NAME + "." + User.COL_YEAR;
+                " ON " + Pin.TABLE_NAME + "." + Pin.COL_TITLE + " LIKE " + User.TABLE_NAME + "." + User.COLUMN_NAME;
 
         Log.d("getCSClassForStudents", sql);
         Cursor cursor = getReadableDatabase().rawQuery(sql, null);
@@ -70,9 +70,9 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         while (cursor.moveToNext()) {
             String builder = getCursorString(cursor, User.COLUMN_NAME) +
                     " goes to " +
-                    getCursorString(cursor, Pin.COL_YEAR) +
+                    getCursorString(cursor, Pin.COL_SNIPPET) +
                     " : " +
-                    getCursorString(cursor, Pin.COL_NAME);
+                    getCursorString(cursor, Pin.COL_SNIPPET);
             Log.d("getCSClassForStudents", builder);
         }
         cursor.close();
@@ -103,8 +103,8 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         if (cursor.moveToFirst()) {
             do {
                 int id = getCursorInt(cursor, Pin._ID);
-                String lat = getCursorString(cursor, Pin.COL_LNG);
-                String lng = getCursorString(cursor, Pin.COL_LNG);
+                double lat = getCursorDouble(cursor, Pin.COL_LNG);
+                double lng = getCursorDouble(cursor, Pin.COL_LNG);
                 String title = getCursorString(cursor, Pin.COL_TITLE);
                 String snippet = getCursorString(cursor, Pin.COL_SNIPPET);
                 pins.add(new Pin(id, lng, lat, title, snippet));

@@ -8,13 +8,14 @@ import android.provider.BaseColumns;
  */
 public class Pin implements BaseColumns {
 
-    ublic static final String COL_LNG = "Longitude";
+    public static final String COL_LNG = "Longitude";
     public static final String COL_LAT = "Latitude";
     public static final String COL_TITLE = "Pin_Title";
     public static final String COL_SNIPPET = "Pin_Snippet";
     public static final String TABLE_NAME = "Pins";
 
-    private String mLNG, mLAT, mTitle, mSnippet;
+    private String mTitle, mSnippet;
+    private double mLNG, mLAT;
     private int mID;
 
     public static final String CREATE_TABLE = "CREATE_TABLE" + TABLE_NAME + " ( " +
@@ -24,10 +25,10 @@ public class Pin implements BaseColumns {
             COL_TITLE + " TEXT, " +
             COL_SNIPPET + " TEXT )";
 
-    public Pin(int id, String lng, String lat, String title, String snippet) {
+    public Pin(int id, double lat, double lng, String title, String snippet) {
         mID = id;
-        mLNG = lng;
         mLAT = lat;
+        mLNG = lng;
         mTitle = title;
         mSnippet = snippet;
     }
@@ -36,11 +37,11 @@ public class Pin implements BaseColumns {
         return mID;
     }
 
-    public String getmLNG() {
+    public double getmLNG() {
         return mLNG;
     }
 
-    public String getmLAT() {
+    public double getmLAT() {
         return mLAT;
     }
 
