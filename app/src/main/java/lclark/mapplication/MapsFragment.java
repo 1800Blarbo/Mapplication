@@ -26,6 +26,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     private GoogleMap mMap;
 
+    private User mUser;
+
     public static final String ARG_MAPS = "MapsFragment.Maps";
 
     @Bind(R.id.mapView)
