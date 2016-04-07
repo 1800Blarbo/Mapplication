@@ -24,46 +24,30 @@ public class AddPinDialogFragment extends DialogFragment {
     @Bind(R.id.fragment_description_edit_text)
     EditText mDescription;
 
-    private UserCreatedListener mListener;
+    private PinCreatedListener mListener;
 
-    public interface UserCreatedListener {
-        void onUserCreated(User user);
+    public interface PinCreatedListener {
+        void onPinCreated(User user);
     }
 
     @NonNull
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
-        mListener = (UserCreatedListener) getActivity();
+        mListener = (PinCreatedListener) getActivity();
         View rootView = LayoutInflater.from(getActivity()).inflate(R.layout.fragment_dialog, null);
         ButterKnife.bind(this, rootView);
 
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setView(rootView)
-                .setTitle(getActivity().getString(R.string.new_user))
+                .setTitle(getActivity().getString(R.string.new_pin))
                 .setPositiveButton(android.R.string.ok,
                         new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                String name = mDescription.getText().toString().trim();
-//                                int id = mRadioGroup.getCheckedRadioButtonId();
-//                                switch (id) {
-//                                    case R.id.fragment_add_student_freshman:
-//                                        year = Student.FRESHMAN;
-//                                        break;
-//                                    case R.id.fragment_add_student_sophomore:
-//                                        year = Student.SOPHOMORE;
-//                                        break;
-//                                    case R.id.fragment_add_student_junior:
-//                                        year = Student.JUNIOR;
-//                                        break;
-//                                    case R.id.fragment_add_student_senior:
-//                                        year = Student.SENIOR;
-//                                        break;
-//                                }
-
-                                int id = 27; // ???
-                                User user = new User(id, name);
-                                mListener.onUserCreated(user);
+                                String title = mTitle.getText().toString().trim();
+                                String description = mDescription.getText().toString().trim();
+                                Pin pin = new Pin(title, description, 50, 50);
+                                mListener.onPinCreated(pin);
 
                             }
                         })

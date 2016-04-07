@@ -3,6 +3,7 @@ package lclark.mapplication;
 import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.FrameLayout;
 
 import butterknife.Bind;
@@ -15,6 +16,8 @@ public class MainActivity extends AppCompatActivity {
     @Bind(R.id.activity_main_framelayout)
     FrameLayout mFrameLayout;
 
+    private UserSQLiteHelper mUserSQLiteHelper;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -22,6 +25,20 @@ public class MainActivity extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new LoginFragment());
                 transaction.commit();
+    }
+
+    @Override
+    public void onUserCreated(User user) {
+        Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
+        mUserSQLiteHelper.insertUser(user);
+        //mUserSQLiteHelper.getCSClassForStudents();
+    }
+
+    @Override
+    public void onPinCreated(Pin pin) {
+        Log.d(getClass().getSimpleName(), "Created -- " + pin.toString());
+        mUserSQLiteHelper.insertPin(pin);
+
     }
 
 }

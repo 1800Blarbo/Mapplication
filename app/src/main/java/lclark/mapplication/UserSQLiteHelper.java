@@ -115,4 +115,8 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         getWritableDatabase().insert(User.TABLE_NAME, null, user.getContentValues());
     }
 
+    public void insertPin(Pin pin) {
+        getWritableDatabase().insert(Pin.TABLE_NAME, null, pin.getContentValues());
+    }
+
 }

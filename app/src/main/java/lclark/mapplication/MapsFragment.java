@@ -3,7 +3,6 @@ package lclark.mapplication;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
@@ -21,7 +20,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
+import lclark.mapplication.User;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
 
@@ -33,6 +32,14 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     MapView mMapView;
 
     private AddPinDialogFragment mAddPinDialogFragment;
+
+    public static Fragment newInstance(User user) {
+        MapsFragment fragment = new MapsFragment();
+        Bundle args = new Bundle();
+        args.putParcelable(ARG_MAPS, user); // why cast
+        fragment.setArguments(args);
+        return fragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup parent, Bundle savedInstanceState) {
@@ -101,14 +108,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
                 .draggable(true));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
-    }
-
-    public static Fragment newInstance(User user) {
-        MapsFragment fragment = new MapsFragment();
-        Bundle args = new Bundle();
-        args.putParcelable(ARG_MAPS, (Parcelable) user); // why cast
-        fragment.setArguments(args);
-        return fragment;
     }
 
 }

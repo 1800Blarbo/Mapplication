@@ -35,6 +35,13 @@ public class Pin implements BaseColumns {
         mUserID = userID;
     }
 
+    public Pin(String mTitle, String mSnippet, double mLAT, double mLNG) {
+        this.mTitle = mTitle;
+        this.mSnippet = mSnippet;
+        this.mLAT = mLAT;
+        this.mLNG = mLNG;
+    }
+
     public int getmID() {
         return mID;
     }
@@ -73,4 +80,5 @@ public class Pin implements BaseColumns {
         contentValues.put(COL_USERID, mUserID);
         return contentValues;
     }
+
 }

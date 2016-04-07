@@ -4,7 +4,6 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,11 +27,18 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
 
-    private UserSQLiteHelper mUserSQLiteHelper;
+    //private UserSQLiteHelper mUserSQLiteHelper;
+
+    private UserCreatedListener mListener;
+
+    public interface UserCreatedListener {
+        void onUserCreated(User user);
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login_main, container, false);
+        mListener = (UserCreatedListener) getActivity();
         ButterKnife.bind(this, rootView);
         return rootView;
     }
@@ -53,11 +59,12 @@ public class LoginFragment extends Fragment {
                             snackbar1.show();
                             // new User("tomas"); // somehow pass tomas to MapsFragment
                             // add new username to SQL
-                                launchMap(new User(user));
                         }
                     });
-
             snackbar.show();
+            User newUser = new User(user);
+            mListener.onUserCreated(newUser);
+            launchMap(newUser);
         } else {
             launchMap(new User(user)); // of user
         }
@@ -80,18 +87,6 @@ public class LoginFragment extends Fragment {
         transaction.replace(R.id.activity_main_framelayout, MapsFragment.newInstance(user));
         //transaction.addToBackStack(null);
         transaction.commit();
-
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_main_framelayout, MainActivityFragment.newInstance(user));
-
-        transaction.commit();
-    }
-
-    //@Override
-    public void onUserCreated(User user) {
-        Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
-        mUserSQLiteHelper.insertUser(user);
-        //mUserSQLiteHelper.getCSClassForStudents();
     }
 
 }
