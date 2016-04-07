@@ -8,7 +8,7 @@ import android.util.Log;
 /**
  * Created by larspmayrand on 4/1/16.
  */
-public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.UserCreatedListener {
+public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener {
 
     private UserSQLiteHelper mUserSQLiteHelper;
 
@@ -27,6 +27,11 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
         Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
         mUserSQLiteHelper.insertUser(user);
         //mUserSQLiteHelper.getCSClassForStudents();
+    }
+
+    @Override
+    public boolean userExists(String user) {
+        return mUserSQLiteHelper.getAllUsernames().contains(user);
     }
 
     @Override

@@ -30,18 +30,17 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
 
-    private UserSQLiteHelper mUserSQLiteHelper;
+    private SQLiteListener mListener;
 
-    private UserCreatedListener mListener;
-
-    public interface UserCreatedListener {
+    public interface SQLiteListener {
         void onUserCreated(User user);
+        boolean userExists(String user);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_login_main, container, false);
-        mListener = (UserCreatedListener) getActivity();
+        mListener = (SQLiteListener) getActivity();
         ButterKnife.bind(this, rootView);
         return rootView;
     }
@@ -56,7 +55,7 @@ public class LoginFragment extends Fragment {
         if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
-        } else if (mUserSQLiteHelper.getAllUsers().toString().contains(user)) { // i dont tink this is the right
+        } else if (!mListener.userExists(user)) {
             Snackbar snackbar = Snackbar
                     .make(mLoginButton, R.string.user_not_found_error, Snackbar.LENGTH_LONG)
                     .setAction("ADD USER", new View.OnClickListener() {
@@ -64,8 +63,6 @@ public class LoginFragment extends Fragment {
                         public void onClick(View view) {
                             Snackbar snackbar1 = Snackbar.make(mLoginButton, R.string.user_added, Snackbar.LENGTH_SHORT);
                             snackbar1.show();
-                            // new User("tomas"); // somehow pass tomas to MapsFragment
-                            // add new username to SQL
                         }
                     });
             snackbar.show();
@@ -73,7 +70,7 @@ public class LoginFragment extends Fragment {
             mListener.onUserCreated(newUser);
             launchMap(newUser);
         } else {
-            // find the user from database and pass it below
+            // find the existing user from database and pass it below
             launchMap(new User(user)); // of user
         }
     }
@@ -83,6 +80,19 @@ public class LoginFragment extends Fragment {
         String user = mEditText.getText().toString().trim();
         if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
+            snackbar.show();
+        } else if (mListener.userExists(user)) {
+            Snackbar snackbar = Snackbar
+                    .make(mLoginButton, R.string.user_not_found_error, Snackbar.LENGTH_LONG)
+                    .setAction("LOGIN", new View.OnClickListener() {
+                        @Override
+                        public void onClick(View view) {
+                            Snackbar snackbar1 = Snackbar.make(mLoginButton, R.string.user_added, Snackbar.LENGTH_SHORT);
+                            snackbar1.show();
+                            // new User("tomas"); // somehow pass tomas to MapsFragment
+                            // add new username to SQL
+                        }
+                    });
             snackbar.show();
         } else {
             User newUser = new User(user);
@@ -97,9 +107,5 @@ public class LoginFragment extends Fragment {
         //transaction.addToBackStack(null);
         transaction.commit();
     }
-
-    /*
-    I don't know if that ^ is on the right track but we need some logic like it
-     */
 
 }

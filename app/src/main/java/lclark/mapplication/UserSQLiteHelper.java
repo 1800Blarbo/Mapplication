@@ -81,16 +81,14 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         cursor.close();
     }
 
-    public ArrayList<User> getAllUsers() {
+    public ArrayList<String> getAllUsernames() {
 
-        ArrayList<User> users = new ArrayList<>();
+        ArrayList<String> users = new ArrayList<>();
         Cursor cursor = getReadableDatabase().rawQuery(" SELECT * FROM " + User.TABLE_NAME, null);
 
         if (cursor.moveToFirst()) {
             do {
-                int id = getCursorInt(cursor, User._ID);
-                String name = getCursorString(cursor, User.COLUMN_NAME);
-                users.add(new User(id, name));
+                users.add(getCursorString(cursor, User.COLUMN_NAME));
             } while (cursor.moveToNext());
         }
 
