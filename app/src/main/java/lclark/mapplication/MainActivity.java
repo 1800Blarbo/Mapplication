@@ -11,7 +11,7 @@ import butterknife.Bind;
 /**
  * Created by larspmayrand on 4/1/16.
  */
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.UserCreatedListener {
 
     @Bind(R.id.activity_main_framelayout)
     FrameLayout mFrameLayout;
@@ -38,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
     public void onPinCreated(Pin pin) {
         Log.d(getClass().getSimpleName(), "Created -- " + pin.toString());
         mUserSQLiteHelper.insertPin(pin);
-
     }
 
 }
