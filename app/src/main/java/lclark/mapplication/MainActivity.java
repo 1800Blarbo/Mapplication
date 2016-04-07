@@ -25,6 +25,7 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new LoginFragment());
                 transaction.commit();
+        mUserSQLiteHelper = UserSQLiteHelper.getInstance(getApplicationContext());
     }
 
     @Override
