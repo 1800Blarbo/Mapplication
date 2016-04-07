@@ -1,26 +1,21 @@
 package lclark.mapplication;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.content.ContextCompat;
+import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
-import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
-import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import lclark.mapplication.User;
 
 public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
 
@@ -28,12 +23,16 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     private User mUser;
 
+    private static final String TAG = "MyActivity";
+
     public static final String ARG_MAPS = "MapsFragment.Maps";
 
     @Bind(R.id.mapView)
     MapView mMapView;
 
     private AddPinDialogFragment mAddPinDialogFragment;
+
+    private Fragment mDialogFragment;
 
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
@@ -48,6 +47,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         View rootView = inflater.inflate(R.layout.fragment_maps, parent, false);
         ButterKnife.bind(this, rootView);
         mMapView.onCreate(savedInstanceState);
+        mMapView.getMapAsync(this);
         return rootView;
     }
 
@@ -81,35 +81,33 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
-        LatLng point = new LatLng(44, 143);
-        mMap.addMarker(new MarkerOptions()
-                .position(point));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+        mMap.setOnMapClickListener(this);
     }
 
     @Override
     public void onMapClick(LatLng point) {
         // TODO: launch dialog fragment, get title and description, store in SQL
 
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.show(mDialogFragment);
-//        transaction.commit();
+        Log.d(TAG, "CLICK'S");
+
+        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+        transaction.show(mDialogFragment);
+        transaction.commit();
+
         //make the dialogFragment centered at point
         // Pin pin = new Pin(point, title, description);
 
-        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
-        //Bitmap barryBitmap = BitmapFactory.barryHead;
-
-        mMap.addMarker(new MarkerOptions()
-                .position(point)
-                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
-                        //.title()
-                        //.snippet()
-                .draggable(true));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+//        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
+//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
+//
+//        mMap.addMarker(new MarkerOptions()
+//                .position(point)
+//                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
+//                        //.title()
+//                        //.snippet()
+//                .draggable(true));
+//
+//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
     }
 
 }
