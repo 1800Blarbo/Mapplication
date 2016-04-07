@@ -26,12 +26,6 @@ public class Pin implements BaseColumns {
             COL_TITLE + " TEXT, " +
             COL_SNIPPET + " TEXT, " + COL_USERID + " TEXT )";
 
-//    "CREATE TABLE " + Student.TABLE_NAME + " ( " +
-//    Student._ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
-//    Student.COL_NAME + " TEXT, " +
-//    Student.COL_YEAR + " TEXT, " +
-//    Student.COL_NET_WORTH + " BIGINT )"
-
     public Pin(int id, double lat, double lng, String title, String snippet, int userID) {
         mID = id;
         mLNG = lng;

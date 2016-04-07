@@ -10,9 +10,6 @@ import android.util.Log;
  */
 public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.UserCreatedListener {
 
-//    @Bind(R.id.activity_main_framelayout)
-//    FrameLayout mFrameLayout;
-
     private UserSQLiteHelper mUserSQLiteHelper;
 
     @Override

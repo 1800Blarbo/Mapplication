@@ -14,6 +14,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Created by larspmayrand on 4/3/16.
+ */
 public class LoginFragment extends Fragment {
 
     public static final String ARG_USER = "LoginFragment.Username";
@@ -27,7 +30,7 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
 
-    //private UserSQLiteHelper mUserSQLiteHelper;
+    // private UserSQLiteHelper mUserSQLiteHelper;
 
     private UserCreatedListener mListener;
 
@@ -90,5 +93,12 @@ public class LoginFragment extends Fragment {
         //transaction.addToBackStack(null);
         transaction.commit();
     }
+
+//    public boolean userInDatabase(String username) {
+//        UserSQLiteHelper.getReadableDatabase();
+//    }
+    /*
+    I don't know if that ^ is on the right track but we need some logic like it
+     */
 
 }
