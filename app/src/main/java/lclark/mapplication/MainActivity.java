@@ -10,7 +10,7 @@ import android.util.Log;
  */
 public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener {
 
-    private UserSQLiteHelper mUserSQLiteHelper;
+    private SQLiteHelper mSQLiteHelper;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,25 +19,25 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, new LoginFragment());
                 transaction.commit();
-        mUserSQLiteHelper = UserSQLiteHelper.getInstance(getApplicationContext());
+        mSQLiteHelper = SQLiteHelper.getInstance(getApplicationContext());
     }
 
     @Override
     public void onUserCreated(User user) {
         Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
-        mUserSQLiteHelper.insertUser(user);
+        mSQLiteHelper.insertUser(user);
         //mUserSQLiteHelper.getCSClassForStudents();
     }
 
     @Override
     public boolean userExists(String user) {
-        return mUserSQLiteHelper.getAllUsernames().contains(user);
+        return mSQLiteHelper.getAllUsernames().contains(user);
     }
 
     @Override
     public void onPinCreated(Pin pin) {
         Log.d(getClass().getSimpleName(), "Created -- " + pin.toString());
-        mUserSQLiteHelper.insertPin(pin);
+        mSQLiteHelper.insertPin(pin);
     }
 
 }

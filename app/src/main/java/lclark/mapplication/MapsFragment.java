@@ -96,19 +96,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     @Override
     public void onMapClick(LatLng point) {
         // TODO: launch dialog fragment, get title and description, store in SQL
-
         Log.d(TAG, "CLICK'S");
-
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.show(mDialogFragment);
-//        transaction.commit();
         AddPinDialogFragment fragment = new AddPinDialogFragment();
         fragment.show(getFragmentManager(), "dialog");
+    }
 
-        /** Find last pin added from the database!!!. */
+    @Override
+    public void setPins() {
 
+    }
+
+    public void setPin(LatLng point) {
         //make the dialogFragment centered at point
-          //Pin pin = new Pin(point, title, description);
+        //Pin pin = new Pin(point, title, description);
 
         Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
