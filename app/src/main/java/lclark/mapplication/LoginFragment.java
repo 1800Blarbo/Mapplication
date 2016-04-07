@@ -30,7 +30,7 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
 
-    // private UserSQLiteHelper mUserSQLiteHelper;
+    private UserSQLiteHelper mUserSQLiteHelper;
 
     private UserCreatedListener mListener;
 
@@ -49,10 +49,14 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.fragment_main_login_button)
     void searchForUser() {
         String user = mEditText.getText().toString().trim();
+        // mUserSQLiteHelper.getAllUsers().toString().contains(user)
+        /**
+         * look thru the database find if the user is a thing or not
+         */
         if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
-        } else if(user.equals("tomas")) { // TODO: username is not found in database
+        } else if (mUserSQLiteHelper.getAllUsers().toString().contains(user)) { // i dont tink this is the right
             Snackbar snackbar = Snackbar
                     .make(mLoginButton, R.string.user_not_found_error, Snackbar.LENGTH_LONG)
                     .setAction("ADD USER", new View.OnClickListener() {
@@ -94,9 +98,6 @@ public class LoginFragment extends Fragment {
         transaction.commit();
     }
 
-//    public boolean userInDatabase(String username) {
-//        UserSQLiteHelper.getReadableDatabase();
-//    }
     /*
     I don't know if that ^ is on the right track but we need some logic like it
      */
