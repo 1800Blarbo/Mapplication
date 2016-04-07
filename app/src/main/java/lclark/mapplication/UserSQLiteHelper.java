@@ -33,9 +33,17 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
         return sInstance;
     }
 
+//    public void initialize() {
+//        SQLiteDatabase database = getWritableDatabase();
+//        database.beginTransaction();
+//
+//        database.setTransactionSuccessful();
+//        database.endTransaction();
+//    }
+
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Pin.CREATE_TABLE);
+        db.execSQL(Pin.CREATE_TABLE); //
         db.execSQL(User.CREATE_TABLE);
     }
 

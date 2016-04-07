@@ -2,7 +2,6 @@ package lclark.mapplication;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -90,9 +89,11 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
         Log.d(TAG, "CLICK'S");
 
-        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.show(mDialogFragment);
-        transaction.commit();
+//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+//        transaction.show(mDialogFragment);
+//        transaction.commit();
+        AddPinDialogFragment fragment = new AddPinDialogFragment();
+        fragment.show(getFragmentManager(), "dialog");
 
         //make the dialogFragment centered at point
         // Pin pin = new Pin(point, title, description);
