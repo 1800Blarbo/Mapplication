@@ -76,7 +76,7 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
     public ArrayList<User> getAllUsers() {
 
         ArrayList<User> users = new ArrayList<>();
-        Cursor cursor = getReadableDatabase().rawQuery("SELECT * FROM " + User.TABLE_NAME, null);
+        Cursor cursor = getReadableDatabase().rawQuery(" SELECT * FROM " + User.TABLE_NAME, null);
 
         if (cursor.moveToFirst()) {
             do {
