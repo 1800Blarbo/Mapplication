@@ -32,6 +32,10 @@ public class User implements BaseColumns {
         this.name = name;
     }
 
+    public User(String name) {
+        this.name = name;
+    }
+
     public ContentValues getContentValues() {
         android.content.ContentValues contentValues = new ContentValues();
         contentValues.put(COLUMN_NAME, name);

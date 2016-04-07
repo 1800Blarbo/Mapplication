@@ -53,32 +53,37 @@ public class LoginFragment extends Fragment {
                             snackbar1.show();
                             // new User("tomas"); // somehow pass tomas to MapsFragment
                             // add new username to SQL
-                                launchMap();
+                                launchMap(new User(user));
                         }
                     });
 
             snackbar.show();
         } else {
-            // SQL
-            launchMap(); // of user
+            launchMap(new User(user)); // of user
         }
     }
 
     @OnClick(R.id.fragment_main_add_user_button)
     void addUser() {
-        String userName = mEditText.getText().toString().trim();
-        if (userName.equals("")) {
+        String user = mEditText.getText().toString().trim();
+        if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
             // SQL
-            launchMap();
+            launchMap(new User(user));
         }
     }
 
-    public void launchMap() { // User user
+    public void launchMap(User user) { // User user
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
-        transaction.replace(R.id.activity_main_framelayout, new MapsFragment());
+        transaction.replace(R.id.activity_main_framelayout, MapsFragment.newInstance(user));
+        //transaction.addToBackStack(null);
+        transaction.commit();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.activity_main_framelayout, MainActivityFragment.newInstance(user));
+
         transaction.commit();
     }
 
