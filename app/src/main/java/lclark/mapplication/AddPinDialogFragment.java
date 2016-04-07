@@ -27,7 +27,7 @@ public class AddPinDialogFragment extends DialogFragment {
     private PinCreatedListener mListener;
 
     public interface PinCreatedListener {
-        void onPinCreated(User user);
+        void onPinCreated(Pin pin);
     }
 
     @NonNull
