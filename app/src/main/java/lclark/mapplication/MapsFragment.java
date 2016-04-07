@@ -45,7 +45,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
-        args.putParcelable(ARG_MAPS, user); // why cast
+        args.putParcelable(ARG_MAPS, user);
         fragment.setArguments(args);
         return fragment;
     }
