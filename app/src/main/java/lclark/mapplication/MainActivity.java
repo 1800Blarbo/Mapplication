@@ -4,17 +4,11 @@ import android.os.Bundle;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.FrameLayout;
-
-import butterknife.Bind;
 
 /**
  * Created by larspmayrand on 4/1/16.
  */
 public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.UserCreatedListener {
-
-    @Bind(R.id.activity_main_framelayout)
-    FrameLayout mFrameLayout;
 
     private UserSQLiteHelper mUserSQLiteHelper;
 

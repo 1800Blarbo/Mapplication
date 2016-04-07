@@ -14,6 +14,9 @@ import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 
+/**
+ * Created by larspmayrand on 4/3/16.
+ */
 public class LoginFragment extends Fragment {
 
     public static final String ARG_USER = "LoginFragment.Username";
@@ -27,7 +30,7 @@ public class LoginFragment extends Fragment {
     @Bind(R.id.fragment_main_add_user_button)
     Button mAddUserButton;
 
-    //private UserSQLiteHelper mUserSQLiteHelper;
+    private UserSQLiteHelper mUserSQLiteHelper;
 
     private UserCreatedListener mListener;
 
@@ -46,10 +49,14 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.fragment_main_login_button)
     void searchForUser() {
         String user = mEditText.getText().toString().trim();
+        // mUserSQLiteHelper.getAllUsers().toString().contains(user)
+        /**
+         * look thru the database find if the user is a thing or not
+         */
         if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
-        } else if(user.equals("tomas")) { // TODO: username is not found in database
+        } else if (mUserSQLiteHelper.getAllUsers().toString().contains(user)) { // i dont tink this is the right
             Snackbar snackbar = Snackbar
                     .make(mLoginButton, R.string.user_not_found_error, Snackbar.LENGTH_LONG)
                     .setAction("ADD USER", new View.OnClickListener() {
@@ -66,6 +73,7 @@ public class LoginFragment extends Fragment {
             mListener.onUserCreated(newUser);
             launchMap(newUser);
         } else {
+            // find the user from database and pass it below
             launchMap(new User(user)); // of user
         }
     }
@@ -77,16 +85,21 @@ public class LoginFragment extends Fragment {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
-            // SQL
-            launchMap(new User(user));
+            User newUser = new User(user);
+            mListener.onUserCreated(newUser);
+            launchMap(newUser);
         }
     }
 
-    public void launchMap(User user) { // User user
+    public void launchMap(User user) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, MapsFragment.newInstance(user));
         //transaction.addToBackStack(null);
         transaction.commit();
     }
+
+    /*
+    I don't know if that ^ is on the right track but we need some logic like it
+     */
 
 }

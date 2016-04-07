@@ -19,7 +19,7 @@ public class Pin implements BaseColumns {
     private int mID, mUserID;
     private double mLNG, mLAT;
 
-    public static final String CREATE_TABLE = "CREATE_TABLE" + TABLE_NAME + " ( " +
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
             COL_LAT + " REAL, " +
             COL_LNG + " REAL, " +

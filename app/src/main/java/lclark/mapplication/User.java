@@ -17,14 +17,9 @@ public class User implements BaseColumns, Parcelable {
     public static final String TABLE_NAME = "users";
     public static final String COLUMN_USERID = "user_ID";
 
-    public static final String CREATE_TABLE = "CREATE TABLE" + TABLE_NAME + " ( " +
+    public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
-            COLUMN_NAME + " TEXT, ";
-
-    protected User(Parcel in) {
-        name = in.readString();
-        idNumber = in.readInt();
-    }
+            COLUMN_NAME + " TEXT )";
 
     public String getName() {
         return name;
@@ -34,12 +29,12 @@ public class User implements BaseColumns, Parcelable {
         return idNumber;
     }
 
-    public User(int idNumber, String name) {
-        this.idNumber = idNumber;
+    public User(String name) {
         this.name = name;
     }
 
-    public User(String name) {
+    public User(int idNumber, String name) {
+        this.idNumber = idNumber;
         this.name = name;
     }
 
@@ -71,5 +66,10 @@ public class User implements BaseColumns, Parcelable {
             return new User[size];
         }
     };
+
+    protected User(Parcel in) {
+        name = in.readString();
+        idNumber = in.readInt();
+    }
 
 }

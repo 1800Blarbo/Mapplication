@@ -43,7 +43,7 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase db) {
-        db.execSQL(Pin.CREATE_TABLE); //
+        db.execSQL(Pin.CREATE_TABLE); // CRASHING
         db.execSQL(User.CREATE_TABLE);
     }
 

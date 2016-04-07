@@ -1,21 +1,30 @@
 package lclark.mapplication;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.content.ContextCompat;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.GoogleMap.OnMapClickListener;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
+/**
+ * Created by larspmayrand on 4/3/16.
+ */
 public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
 
     private GoogleMap mMap;
@@ -81,6 +90,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+        //mMap.setOnMapReadyCallback(this);
     }
 
     @Override
@@ -95,20 +105,22 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         AddPinDialogFragment fragment = new AddPinDialogFragment();
         fragment.show(getFragmentManager(), "dialog");
 
-        //make the dialogFragment centered at point
-        // Pin pin = new Pin(point, title, description);
+        /** Find last pin added from the database!!!. */
 
-//        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
-//        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
-//
-//        mMap.addMarker(new MarkerOptions()
-//                .position(point)
-//                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
-//                        //.title()
-//                        //.snippet()
-//                .draggable(true));
-//
-//        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+        //make the dialogFragment centered at point
+          //Pin pin = new Pin(point, title, description);
+
+        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(point)
+                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
+                        //.title()
+                        //.snippet()
+                .draggable(true));
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
     }
 
 }
