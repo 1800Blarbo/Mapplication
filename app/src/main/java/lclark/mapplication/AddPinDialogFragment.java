@@ -48,7 +48,9 @@ public class AddPinDialogFragment extends DialogFragment {
                                 String description = mDescription.getText().toString().trim();
                                 Pin pin = new Pin(title, description, 50, 50);
                                 mListener.onPinCreated(pin);
-
+                                /**
+                                 * do something with pins and IDs i think?A?D?FA?SDF?
+                                 */
                             }
                         })
                 .setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {

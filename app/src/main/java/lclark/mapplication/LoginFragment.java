@@ -66,6 +66,7 @@ public class LoginFragment extends Fragment {
             mListener.onUserCreated(newUser);
             launchMap(newUser);
         } else {
+            // find the user from database and pass it below
             launchMap(new User(user)); // of user
         }
     }
@@ -77,12 +78,13 @@ public class LoginFragment extends Fragment {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();
         } else {
-            // SQL
-            launchMap(new User(user));
+            User newUser = new User(user);
+            mListener.onUserCreated(newUser);
+            launchMap(newUser);
         }
     }
 
-    public void launchMap(User user) { // User user
+    public void launchMap(User user) {
         FragmentTransaction transaction = getFragmentManager().beginTransaction();
         transaction.replace(R.id.activity_main_framelayout, MapsFragment.newInstance(user));
         //transaction.addToBackStack(null);

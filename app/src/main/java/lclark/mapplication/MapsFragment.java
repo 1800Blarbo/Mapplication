@@ -81,6 +81,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+        //mMap.setOnMapReadyCallback(this);
     }
 
     @Override
@@ -95,8 +96,10 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         AddPinDialogFragment fragment = new AddPinDialogFragment();
         fragment.show(getFragmentManager(), "dialog");
 
+        /** Find last pin added from the database!!!. */
+
         //make the dialogFragment centered at point
-        // Pin pin = new Pin(point, title, description);
+          //Pin pin = new Pin(point, title, description);
 
 //        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
 //        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
