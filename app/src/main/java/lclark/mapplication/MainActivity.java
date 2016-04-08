@@ -10,7 +10,7 @@ import com.google.android.gms.maps.model.LatLng;
 /**
  * Created by larspmayrand on 4/1/16.
  */
-public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener, MapsFragment.DialogCallbackListener {
+public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener {
 
     private SQLiteHelper mSQLiteHelper;
 
@@ -41,7 +41,6 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
         mSQLiteHelper.insertPin(pin);
     }
 
-    @Override
     public Pin makePin(String title, String description, LatLng point) {
         return new Pin(title, description,  point.latitude, point.longitude);
     }

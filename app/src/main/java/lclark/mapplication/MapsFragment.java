@@ -18,6 +18,8 @@ import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.ArrayList;
+
 import butterknife.Bind;
 import butterknife.ButterKnife;
 
@@ -36,8 +38,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     private User mUser;
 
 
-
-
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
         Bundle args = new Bundle();
@@ -52,6 +52,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         ButterKnife.bind(this, rootView);
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
+        mUser = getArguments().getParcelable(ARG_MAPS);
         return rootView;
     }
 
@@ -68,6 +69,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
+        setPins();
     }
 
     @Override
@@ -77,14 +79,15 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         fragment.show(getFragmentManager(), "dialog");
     }
 
-//    @Override
-//    public void setPins() {
-//          get users pins, set all 'em
-//    }
+    public void setPins() {
+
+        ArrayList<Pin> pins = SQLiteHelper.getInstance(getContext()).getPinsForUser(mUser.getIdNumber());
+        for (Pin pin : pins) {
+            setPin(pin);
+        }
+    }
 
     public void setPin(Pin pin) {
-        //make the dialogFragment centered at point
-        //Pin pin = new Pin(point, title, description);
 
         Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
@@ -92,8 +95,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         mMap.addMarker(new MarkerOptions()
                 .position(pin.getLatLng())
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
-                        .title(pin.getmTitle())
-                        .snippet(pin.getmSnippet())
+                .title(pin.getmTitle())
+                .snippet(pin.getmSnippet())
                 .draggable(true));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pin.getLatLng(), 3));

@@ -66,19 +66,31 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         return cursor.getInt(cursor.getColumnIndex(columnName));
     }
 
-    public void getPinsForUsers() {
+    public ArrayList<Pin> getPinsForUser(int userID) {
+
         String sql = " SELECT " +
-                Pin.TABLE_NAME + "." + "*" +
+                Pin.TABLE_NAME + ".*" +
                 " FROM " + Pin.TABLE_NAME +
-                " WHERE " + User._ID + " = " + Pin.COL_USERID;
+                " WHERE " + Pin.COL_USERID + " = ?";
 
         Log.d("getPinsForUsers", sql);
-        Cursor cursor = getReadableDatabase().rawQuery(sql, null);
 
-//        while (cursor.moveToNext()) {
-//
-//        }
+        ArrayList<Pin> pins = new ArrayList<>();
+        Cursor cursor = getReadableDatabase().rawQuery(sql, new String[]{String.valueOf(userID)});
+
+        if (cursor.moveToFirst()) {
+            do {
+                int id = getCursorInt(cursor, Pin._ID);
+                double lat = getCursorDouble(cursor, Pin.COL_LNG);
+                double lng = getCursorDouble(cursor, Pin.COL_LNG);
+                String title = getCursorString(cursor, Pin.COL_TITLE);
+                String snippet = getCursorString(cursor, Pin.COL_SNIPPET);
+                pins.add(new Pin(id, lat, lng, title, snippet, userID));
+            } while (cursor.moveToNext());
+        }
         cursor.close();
+
+        return pins;
     }
 
     public ArrayList<String> getAllUsernames() {
