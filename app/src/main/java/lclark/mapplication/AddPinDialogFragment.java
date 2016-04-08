@@ -19,7 +19,7 @@ import butterknife.ButterKnife;
 /**
  * Created by larspmayrand on 4/5/16.
  */
-public class AddPinDialogFragment extends DialogFragment implements MapsFragment.DialogCallbackListener {
+public class AddPinDialogFragment extends DialogFragment  {
 
     @Bind(R.id.fragment_title_edit_text)
     EditText mTitle;
@@ -33,16 +33,18 @@ public class AddPinDialogFragment extends DialogFragment implements MapsFragment
 
     private PinCreatedListener mListener;
 
+
     @Override
-    public Pin makePin(String title, String description, LatLng point) {
-        return null;
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        point = getArguments().getParcelable(ARG_PIN);
     }
 
     public interface PinCreatedListener {
         void onPinCreated(Pin pin);
     }
 
-    public static AddPinDialogFragment newInstance(MapsFragment.DialogCallbackListener listener, LatLng point) {
+    public static AddPinDialogFragment newInstance(PinCreatedListener listener, LatLng point) {
         AddPinDialogFragment fragment = new AddPinDialogFragment();
         fragment.setTargetFragment((Fragment) listener, 1234 /*request code*/); //????
         Bundle args = new Bundle();
@@ -67,12 +69,12 @@ public class AddPinDialogFragment extends DialogFragment implements MapsFragment
                             public void onClick(DialogInterface dialog, int which) {
                                 String title = mTitle.getText().toString().trim();
                                 String description = mDescription.getText().toString().trim();
-                                Pin pin = new Pin(title, description, 50, 50);
+                                Pin pin = new Pin(title, description, point.latitude, point.longitude);
                                 mListener.onPinCreated(pin);
 
                                 /** THE FOLLOWING CODE CRASHES IT A LOT. */
                                 //MapsFragment.DialogCallbackListener mHost = (MapsFragment.DialogCallbackListener)getTargetFragment();
-                                ((MapsFragment.DialogCallbackListener) getTargetFragment()).makePin(title, description, point);
+//                                ((MapsFragment.DialogCallbackListener) getTargetFragment()).makePin(title, description, point);
                                 //mHost.makePin(title, description, point);
                             }
                         })

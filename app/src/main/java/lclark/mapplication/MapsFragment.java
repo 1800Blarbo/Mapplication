@@ -24,7 +24,7 @@ import butterknife.ButterKnife;
 /**
  * Created by larspmayrand on 4/3/16.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener, AddPinDialogFragment.PinCreatedListener {
 
     private GoogleMap mMap;
 
@@ -35,11 +35,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     private User mUser;
 
-    private DialogCallbackListener mListener;
 
-    public interface DialogCallbackListener {
-        Pin makePin(String title, String description, LatLng point);
-    }
+
 
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
@@ -75,7 +72,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     @Override
     public void onMapClick(LatLng point) {
-        AddPinDialogFragment fragment = AddPinDialogFragment.newInstance(mListener, point);
+        AddPinDialogFragment fragment = AddPinDialogFragment.newInstance(this, point);
         fragment.setTargetFragment(this, 0);
         fragment.show(getFragmentManager(), "dialog");
     }
@@ -85,7 +82,7 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 //          get users pins, set all 'em
 //    }
 
-    public void setPin(LatLng point) {
+    public void setPin(Pin pin) {
         //make the dialogFragment centered at point
         //Pin pin = new Pin(point, title, description);
 
@@ -93,13 +90,13 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
 
         mMap.addMarker(new MarkerOptions()
-                .position(point)
+                .position(pin.getLatLng())
                 .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
-                        //.title()
-                        //.snippet()
+                        .title(pin.getmTitle())
+                        .snippet(pin.getmSnippet())
                 .draggable(true));
 
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pin.getLatLng(), 3));
     }
 
     @Override
@@ -120,4 +117,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         mMapView.onPause();
     }
 
+    @Override
+    public void onPinCreated(Pin pin) {
+        setPin(pin);
+    }
 }

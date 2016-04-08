@@ -3,6 +3,8 @@ package lclark.mapplication;
 import android.content.ContentValues;
 import android.provider.BaseColumns;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by larspmayrand on 4/3/16.
  */
@@ -18,6 +20,7 @@ public class Pin implements BaseColumns {
     private String mTitle, mSnippet;
     private int mID, mUserID;
     private double mLNG, mLAT;
+    private LatLng mLatLng;
 
     public static final String CREATE_TABLE = "CREATE TABLE " + TABLE_NAME + " ( " +
             _ID + " TEXT PRIMARY KEY, " +
@@ -52,6 +55,13 @@ public class Pin implements BaseColumns {
 
     public double getmLAT() {
         return mLAT;
+    }
+
+    public LatLng getLatLng() {
+        if (mLatLng == null) {
+            mLatLng = new LatLng(mLAT, mLNG);
+        }
+        return mLatLng;
     }
 
     public String getmTitle() {
