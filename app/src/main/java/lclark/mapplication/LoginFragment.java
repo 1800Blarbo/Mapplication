@@ -48,10 +48,6 @@ public class LoginFragment extends Fragment {
     @OnClick(R.id.fragment_main_login_button)
     void searchForUser() {
         String user = mEditText.getText().toString().trim();
-        // mUserSQLiteHelper.getAllUsers().toString().contains(user)
-        /**
-         * look thru the database find if the user is a thing or not
-         */
         if (user.equals("")) {
             Snackbar snackbar = Snackbar.make(mLoginButton, getString(R.string.null_username_error), Snackbar.LENGTH_LONG);
             snackbar.show();

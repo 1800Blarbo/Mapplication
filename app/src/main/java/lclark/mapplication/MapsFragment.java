@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,22 +24,19 @@ import butterknife.ButterKnife;
 /**
  * Created by larspmayrand on 4/3/16.
  */
-public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener {
+public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapClickListener, AddPinDialogFragment.PinCreatedListener {
 
     private GoogleMap mMap;
 
-    private User mUser;
-
-    private static final String TAG = "MyActivity";
-
-    public static final String ARG_MAPS = "MapsFragment.Maps";
+    public static final String ARG_MAPS = "MapsFragment.User";
 
     @Bind(R.id.mapView)
     MapView mMapView;
 
-    private AddPinDialogFragment mAddPinDialogFragment;
+    private User mUser;
 
-    private Fragment mDialogFragment;
+
+
 
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
@@ -57,6 +53,50 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         mMapView.onCreate(savedInstanceState);
         mMapView.getMapAsync(this);
         return rootView;
+    }
+
+    /**
+     * Manipulates the map once available.
+     * This callback is triggered when the map is ready to be used.
+     * This is where we can add markers or lines, add listeners or move the camera. In this case,
+     * we just add a marker near Sydney, Australia.
+     * If Google Play services is not installed on the device, the user will be prompted to install
+     * it inside the SupportMapFragment. This method will only be triggered once the user has
+     * installed Google Play services and returned to the app.
+     */
+    @Override
+    public void onMapReady(GoogleMap googleMap) {
+        mMap = googleMap;
+        mMap.setOnMapClickListener(this);
+    }
+
+    @Override
+    public void onMapClick(LatLng point) {
+        AddPinDialogFragment fragment = AddPinDialogFragment.newInstance(this, point);
+        fragment.setTargetFragment(this, 0);
+        fragment.show(getFragmentManager(), "dialog");
+    }
+
+//    @Override
+//    public void setPins() {
+//          get users pins, set all 'em
+//    }
+
+    public void setPin(Pin pin) {
+        //make the dialogFragment centered at point
+        //Pin pin = new Pin(point, title, description);
+
+        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
+        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
+
+        mMap.addMarker(new MarkerOptions()
+                .position(pin.getLatLng())
+                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
+                        .title(pin.getmTitle())
+                        .snippet(pin.getmSnippet())
+                .draggable(true));
+
+        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(pin.getLatLng(), 3));
     }
 
     @Override
@@ -77,50 +117,8 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         mMapView.onPause();
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be triggered once the user has
-     * installed Google Play services and returned to the app.
-     */
     @Override
-    public void onMapReady(GoogleMap googleMap) {
-        mMap = googleMap;
-        mMap.setOnMapClickListener(this);
-        //mMap.setOnMapReadyCallback(this);
+    public void onPinCreated(Pin pin) {
+        setPin(pin);
     }
-
-    @Override
-    public void onMapClick(LatLng point) {
-        // TODO: launch dialog fragment, get title and description, store in SQL
-
-        Log.d(TAG, "CLICK'S");
-
-//        FragmentTransaction transaction = getFragmentManager().beginTransaction();
-//        transaction.show(mDialogFragment);
-//        transaction.commit();
-        AddPinDialogFragment fragment = new AddPinDialogFragment();
-        fragment.show(getFragmentManager(), "dialog");
-
-        /** Find last pin added from the database!!!. */
-
-        //make the dialogFragment centered at point
-          //Pin pin = new Pin(point, title, description);
-
-        Bitmap b = ((BitmapDrawable) ContextCompat.getDrawable(getActivity().getApplicationContext(), R.drawable.barry_glass_head)).getBitmap();
-        Bitmap bitmapResized = Bitmap.createScaledBitmap(b, 100, 130, false);
-
-        mMap.addMarker(new MarkerOptions()
-                .position(point)
-                .icon(BitmapDescriptorFactory.fromBitmap(bitmapResized))
-                        //.title()
-                        //.snippet()
-                .draggable(true));
-
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
-    }
-
 }

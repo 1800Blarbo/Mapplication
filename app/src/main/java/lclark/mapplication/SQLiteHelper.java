@@ -11,12 +11,12 @@ import java.util.ArrayList;
 /**
  * Created by larspmayrand on 4/3/16.
  */
-public class UserSQLiteHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     public static final String DB_NAME = "roster.db";
-    private static UserSQLiteHelper sInstance;
+    private static SQLiteHelper sInstance;
 
-    private UserSQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    private SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
 
@@ -26,9 +26,9 @@ public class UserSQLiteHelper extends SQLiteOpenHelper {
      * @param context : Must be Application Context
      * @return instance of StudentSqliteHelper
      */
-    public static UserSQLiteHelper getInstance(Context context) {
+    public static SQLiteHelper getInstance(Context context) {
         if (sInstance == null) {
-            sInstance = new UserSQLiteHelper(context.getApplicationContext(), DB_NAME, null, 1);
+            sInstance = new SQLiteHelper(context.getApplicationContext(), DB_NAME, null, 1);
         }
         return sInstance;
     }
