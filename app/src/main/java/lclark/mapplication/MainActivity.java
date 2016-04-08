@@ -5,10 +5,12 @@ import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
+import com.google.android.gms.maps.model.LatLng;
+
 /**
  * Created by larspmayrand on 4/1/16.
  */
-public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener {
+public class MainActivity extends AppCompatActivity implements AddPinDialogFragment.PinCreatedListener, LoginFragment.SQLiteListener, MapsFragment.DialogCallbackListener {
 
     private SQLiteHelper mSQLiteHelper;
 
@@ -26,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
     public void onUserCreated(User user) {
         Log.d(getClass().getSimpleName(), "Created -- " + user.toString());
         mSQLiteHelper.insertUser(user);
-        //mUserSQLiteHelper.getCSClassForStudents();
     }
 
     @Override
@@ -38,6 +39,11 @@ public class MainActivity extends AppCompatActivity implements AddPinDialogFragm
     public void onPinCreated(Pin pin) {
         Log.d(getClass().getSimpleName(), "Created -- " + pin.toString());
         mSQLiteHelper.insertPin(pin);
+    }
+
+    @Override
+    public Pin makePin(String title, String description, LatLng point) {
+        return new Pin(title, description,  point.latitude, point.longitude);
     }
 
 }

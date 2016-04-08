@@ -5,7 +5,6 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,18 +28,18 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
 
     private GoogleMap mMap;
 
-    private User mUser;
-
-    private static final String TAG = "MyActivity";
-
-    public static final String ARG_MAPS = "MapsFragment.Maps";
+    public static final String ARG_MAPS = "MapsFragment.User";
 
     @Bind(R.id.mapView)
     MapView mMapView;
 
-    private AddPinDialogFragment mAddPinDialogFragment;
+    private User mUser;
 
-    private Fragment mDialogFragment;
+    private DialogCallbackListener mListener;
+
+    public interface DialogCallbackListener {
+        Pin makePin(String title, String description, LatLng point);
+    }
 
     public static Fragment newInstance(User user) {
         MapsFragment fragment = new MapsFragment();
@@ -59,24 +58,6 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
         return rootView;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        mMapView.onResume();
-    }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        mMapView.onDestroy();
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        mMapView.onPause();
-    }
-
     /**
      * Manipulates the map once available.
      * This callback is triggered when the map is ready to be used.
@@ -90,21 +71,19 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMapClickListener(this);
-        //mMap.setOnMapReadyCallback(this);
     }
 
     @Override
     public void onMapClick(LatLng point) {
-        // TODO: launch dialog fragment, get title and description, store in SQL
-        Log.d(TAG, "CLICK'S");
-        AddPinDialogFragment fragment = new AddPinDialogFragment();
+        AddPinDialogFragment fragment = AddPinDialogFragment.newInstance(mListener, point);
+        fragment.setTargetFragment(this, 0);
         fragment.show(getFragmentManager(), "dialog");
     }
 
-    @Override
-    public void setPins() {
-
-    }
+//    @Override
+//    public void setPins() {
+//          get users pins, set all 'em
+//    }
 
     public void setPin(LatLng point) {
         //make the dialogFragment centered at point
@@ -121,6 +100,24 @@ public class MapsFragment extends Fragment implements OnMapReadyCallback, OnMapC
                 .draggable(true));
 
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(point, 3));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mMapView.onResume();
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        mMapView.onDestroy();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        mMapView.onPause();
     }
 
 }
